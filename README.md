@@ -8,6 +8,8 @@ and a 25-question evaluation set re-run **25 times**, one change per round.
 This repository is not a framework. It is **what the measurements said**, including
 the parts where they contradicted what I expected.
 
+> 한국어 전문: [`README.ko.md`](README.ko.md)
+
 ---
 
 ## The one-paragraph version
@@ -105,6 +107,10 @@ index**.
 - [`tools/index_census.py`](tools/index_census.py) — reads an OpenClaw memory index
   and prints total chunks, file count, and per-file chunk share; exits non-zero when
   a single file exceeds a share threshold. This is the gauge I wish I'd had on day 1.
+- [`tools/evalset_run.py`](tools/evalset_run.py) — the round runner. Swap in your own
+  questions and it works as-is. Its comments are mostly scar tissue: why stderr is
+  captured, why `negative` questions are not auto-scored, why the measurement path is
+  stamped into every output file.
 
 Everything else in this repo is prose, deliberately. The scripts that manage my own
 vault are shaped by my folder layout and would be a trap to copy.
