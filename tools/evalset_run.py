@@ -75,7 +75,7 @@ def search(query: str):
     t0 = time.time()
     r = subprocess.run(
         ["openclaw", "gateway", "call", "memory.search",
-         "--params", json.dumps({"query": query, "maxResults": MAX_RESULTS}),
+         "--params", json.dumps({"query": query, "maxResults": MAX_RESULTS, "agentId": "main"}),
          "--json", "--timeout", "30000"],
         capture_output=True, text=True, timeout=180)
     ms = (time.time() - t0) * 1000
