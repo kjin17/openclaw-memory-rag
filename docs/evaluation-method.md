@@ -19,6 +19,7 @@ be reachable.
 | `causal` | 8 | can it reach the *reason*, which usually lives in a different node than the symptom |
 | `negative` | 5 | what confidently answers a question that has **no** good answer |
 | `recency` | 6 | (added later) questions about recent events, to price the recency weighting |
+| larger probes | 17, 54 | (added from late September) occupancy probes, the 54-question one with 49 auto-scored, read at k = 5, 6 and 20, to see *how far* outside the window a missed answer sits |
 
 Scoring is mechanical: the expected document is in the top-k, or it isn't. I do not
 grade the prose. Prose grading turns a repeatable measurement into an opinion.
@@ -81,6 +82,56 @@ Two harness problems cost me real time:
   so the headline number isn't quietly borrowing credit from unscored questions.
 - n = 1 corpus, 1 embedding model, 1 person writing both the questions and the notes.
   Directions transfer; numbers don't.
+- **The core set has been taught to.** By late October most of the 25 had been the
+  target of at least one fix. A question you steered a change by is no longer a fair
+  ruler for that kind of change. See §8.
+
+## 8. Keep a held-out set, and retire questions you fixed toward
+
+After about forty rounds I sorted every question into three groups:
+
+- **used**: I changed the corpus specifically to make it pass. Kept as a regression
+  check, never as evidence that a change helped.
+- **near-ceiling**: passes almost always. Good for catching regressions, too weak to
+  measure improvements.
+- **held out**: a new set of 15 questions (13 auto-scored, 2 `negative`), stored
+  **outside the index**, pinned by a content hash, and read by the harness through
+  an import. If I ever look at a held-out question while fixing something, it moves
+  to "used" and gets replaced.
+
+Two rules came with it. With n = 13, I only treat a difference of **two or more
+questions** as signal. And while many small changes land in the same week, I measure
+the held-out set once a week instead of after every change, and only split up the
+week's changes when the weekly number moves by two or more. The baseline is written
+into the round table on the day it is taken (11/13, MRR 0.75), not left in a results
+file, so the next comparison does not require re-scoring raw output.
+
+## 9. An offline replica is a better A/B than the live system, if you prove it first
+
+The ranking constants are not configurable (see findings G2), so most "what if"
+questions can only be answered offline. Copy the index read-only, import the shipped
+search functions, replay the queries, and flip one stage at a time. This leaves the
+live system untouched and makes runs repeatable.
+
+None of that is worth anything until the replica matches live **slot for slot**.
+Mine matched 85/85 on one build and then silently stopped matching after an upgrade,
+which added a query prefix to the embedding input. Before trusting a replica:
+
+1. Count how many questions match live exactly, top-k in order. Re-count after
+   every agent upgrade.
+2. Break it on purpose (drop the prefix, shift the decay clock, turn MMR off) and
+   check that the match collapses. A replica that still "matches" when broken is not
+   measuring anything.
+3. Keep the replica in a repository, not in `/tmp`. Mine was lost to a reboot
+   right when I needed it.
+
+## 10. Number rounds once
+
+Six rounds from one week were never entered in the table, and their result files
+were numbered as if they came next. Weeks later the same numbers were reused. I
+slotted them in as sub-rounds (36-1 … 36-6) in time order and kept the file names.
+A round number is an identifier; allocate it when the round runs, not when you
+write it up.
 
 ---
 
