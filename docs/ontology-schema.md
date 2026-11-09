@@ -1,8 +1,11 @@
-# The ontology
+# Appendix B. The ontology
 
-A "knowledge graph" for an agent's memory does not need a triple store. Mine is
+Part of the whitepaper [`whitepaper.md`](whitepaper.md).
+
+A "knowledge graph" for an agent's memory does not need a triple store. Ours is
 Markdown files with a handful of typed links, and it produced the single largest
-retrieval improvement I measured (**+48 points**, see [`findings.md`](findings.md)).
+retrieval improvement we measured (**+48 points**, whitepaper §4.2; §4.6 narrows what
+produced it).
 
 The design constraints below are the parts that turned out to matter.
 
@@ -25,7 +28,7 @@ material that may later be promoted into one.
 
 ## Rule 1: cap the predicates
 
-Eight. Mine are effectively:
+Eight. Ours are effectively:
 
 ```
 상위::      belongs-to        (parent node — every node has exactly one)
@@ -60,7 +63,7 @@ duplicate, pick an owner and make the other side a link.
 ## Rule 5: a lesson is not a log
 
 A lesson node states a rule, the evidence for it, and **what would refute it**. It is
-not a diary entry. Concretely, mine look like:
+not a diary entry. Concretely, ours look like:
 
 ```markdown
 ---
@@ -90,10 +93,10 @@ Be honest about this before adopting it:
 
 - **Nodes are chunks.** Every node you add competes with every other node for the
   result window. A graph with 400 thin nodes is not obviously better than one with
-  100 solid ones; I have not measured the crossover.
+  100 solid ones; we have not measured the crossover.
 - **Maintenance is real.** Unresolved links, stale duplicates, and hub notes that
-  drifted empty all need a checker. Manual discipline does not survive a busy week —
-  I have the failed attempt on record.
+  drifted empty all need a checker. Manual discipline alone did not keep
+  them in check.
 - **Touching nodes moves rankings.** Reorganising the graph is never a no-op for
   retrieval quality. Re-measure after structural edits.
 
