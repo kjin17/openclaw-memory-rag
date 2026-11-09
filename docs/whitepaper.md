@@ -217,8 +217,8 @@ replay queries, and change one stage at a time. A replica is trusted only after:
 
 ## 4. Results
 
-Numbers from different OpenClaw builds are not compared. Builds: rounds ≤ 24 on
-2026.8.2, 25–37 on 2026.9.2, 38–39 on 2026.9.7, 40 on 2026.10.5, 41 onwards on
+Numbers from different OpenClaw builds are not compared. Builds: rounds 1–6 on a
+build before 2026.8.2, 7–24 on 2026.8.2, 25–37 on 2026.9.2, 38–39 on 2026.9.7, 40 on 2026.10.5, 41 onwards on
 2026.10.9. Rounds 42 and 43 changed the measuring tool and start new comparison points.
 
 ### 4.1 Score history (selected rounds)
@@ -311,7 +311,11 @@ schema notes together with four other changes: 44% → **92%** (23/25) on the co
   lose 4.5–6.7% of their score, larger on our probe than the typical gap between
   neighbouring top-5 results (~0.04).
 
-**G1. A score can decay by the clock alone.** On a 49-question set the score went from
+**G1. An upgrade is a new baseline, and a score can decay by the clock alone.** At the
+end of September the core 25 scored 64–68% on 2026.9.2, having drifted down from 96% as
+the corpus grew; no single cause was isolated. The first round on 2026.9.7 scored 44%
+(11/25), recency 1/6; the chunker version changed (3 → 5) and the index was rebuilt, so
+this is a new baseline, not a regression. On a 49-question set the score then went from
 28/49 to 24/49 within days with nothing changed, because curated notes aged.
 
 ### 4.4 Interventions that did not work
@@ -445,8 +449,8 @@ current in only 1 of 5, and the canonical note was in the top 5 in 2 of 5. Premi
 words pull old-value chunks up.
 
 **In-line correction markers.** Lessons that had been refuted carried their correction
-as a separate line at the end. Measured with 20 natural-language queries
-(2026-11-06): in 4 queries an old-claim chunk came back with no correction anywhere in
+as a separate line at the end. Measured with 20 queries (5 quoting the old
+claim, 15 natural-language; 2026-11-06): in 4 queries an old-claim chunk came back with no correction anywhere in
 the top 5, plus 1 more on an off-topic query. Each of the three lessons that carried only
 an appended refutation line showed up uncorrected; the two whose opening claim had been
 rewritten never did. After adding a short correction marker inside the same line as the

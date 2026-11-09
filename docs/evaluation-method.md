@@ -32,8 +32,9 @@ The temptation is to re-run only the question you were fixing. Doing so misses
 regressions elsewhere, usually in questions that have nothing to do with the file that
 was touched (whitepaper §4.3).
 
-Rounds that changed more than one thing at once could not be attributed and are
-recorded as unusable.
+Several early rounds that changed more than one thing at once could not be attributed
+and are recorded as unusable. Where a round deliberately bundles changes (round 39),
+the result is reported with that caveat and decomposed offline where possible.
 
 ## 3. Log every round, including the bad ones
 
