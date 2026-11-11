@@ -19,7 +19,7 @@ Restructured as a technical whitepaper. Scope is now how memory search is used
 - Added `AGENTS.md`: what goes in, what stays out, checks before push.
 - Added `.gitignore` for Python bytecode (`__pycache__/`, `*.pyc`).
 
-**Removed** (not about retrieval): former findings D3–D5 and E1–E4 (general operations
+**Removed** (not about retrieval): former findings D3, D4, D5 (D5a kept) and E1–E4 (general operations
 notes), and personal anecdotes in the method and schema appendices and tool comments.
 No retrieval measurement was removed. The removed operations notes carried their own
 figures (D3 four months, D4 25 minutes, E1 eleven days); those are no longer in this
