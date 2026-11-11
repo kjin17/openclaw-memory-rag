@@ -8,7 +8,7 @@ prose turns a repeatable measurement into an opinion.
     python3 evalset_run.py 26          # label this round "26"
 
 Replace QUESTIONS with your own before using this. The ones below are shaped like
-mine but are placeholders; a question is only useful if you know which document
+ours but are placeholders; a question is only useful if you know which document
 *must* be retrieved for it to be answerable.
 
 Design decisions that came from being burned, not from taste:
@@ -32,7 +32,7 @@ Design decisions that came from being burned, not from taste:
 
   · The measurement path is stamped into the output file. Latency measured through
     a CLI that takes a lock is not comparable with latency measured through the
-    running service — in my case 52s vs 1.8s for the identical query. If you switch
+    running service — in our case 52s vs 1.8s for the identical query. If you switch
     paths and don't record it, you will compare incomparable rounds forever.
 
   · Output files are per-round and never overwritten. The trend is the point.

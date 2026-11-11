@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """Per-file chunk share for an OpenClaw memory index.
 
-This is the gauge I wish I had had on day one. It answers one question:
+A gauge worth having from day one. It answers one question:
 
     is a single file eating so much of the result window that correct
     answers can no longer fit in it?
 
 Why chunk share and not file size: a bullet-list document splits into many short
-chunks and a prose document of the same byte size splits into few. In the incident
-that motivated this script, the offending file was getting *smaller* in bytes while
-its chunk count grew. Size hid the problem completely.
+chunks and a prose document of the same byte size splits into few. A crowding file
+can get *smaller* in bytes while its chunk count grows, so size hides the problem.
 
 Usage
     python3 index_census.py                       # default DB path, top 20
