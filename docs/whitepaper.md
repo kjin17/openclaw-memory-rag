@@ -35,7 +35,8 @@ The main results:
 - **Since 2026-11-03:** a fixed-baseline regression check (31/38, run-to-run variation
   0 questions); a stale-value probe in which documentation fixes moved the first-ranked
   stale chunk from 7 to 4 of 15 questions; in-line correction markers that took
-  "old claim returned without its correction" from 4 to 0 of 20 queries; and a
+  "old claim returned with neither its correction nor a counter-example" from 4 to 0
+  of 20 queries (markers added 2026-11-07, re-measured 2026-11-09); and a
   replica re-verified on 2026.10.9 that showed decay reads the file's current mtime.
 
 Everything here is n = 1: one corpus, one embedding model, one author of both the
@@ -228,6 +229,7 @@ build before 2026.8.2, 7–24 on 2026.8.2, 25–37 on 2026.9.2, 38–39 on 2026.
 | 1 | 08-22 | curated ontology vs. flat notes | 40% → **88%** | +48 points (§4.2) |
 | 2 | 08-30 | re-measure after 8 days | 56% | generated material reached 82% of chunks |
 | 6 | 08-30 | reverse dependency edges written into notes | 92% | |
+| 17 | 09-06 | added a "canonical location" table to the index note | 92% | recency 6/6 |
 | 20 | 09-06 | strengthened a component note | **96%** | multihop 9/9 |
 | 21–23 | 09-06 | edit → shrink → revert one file | 92% | target unfixed; an unrelated `fact` broke |
 | 24 | 09-06 | restored that file's original mtime | 96% | content byte-identical (see B1 correction) |
@@ -287,6 +289,14 @@ that file.
 > the file's current mtime at query time (66/66), not the index-stored mtime (61/66).
 > On that build an `mtime`-only change does move ranking. The rule is therefore
 > build-specific: verify which timestamp your build reads (§4.5).
+>
+> **Note (2026-11-11).** The 2026-09-14 test above does not support its own rule as
+> strongly as written. The eleven notes whose `mtime` was restored (round 36-2) were
+> daily notes, which are aged by their filename date (§2, G3), so that test could not
+> show an `mtime` effect either way. One day earlier, on the same build 2026.9.2,
+> restoring only the `mtime` of 14 curated lessons whose content had been edited
+> (round 36, 09-13) moved the core set from 92% to 96%. The 2026-09-14 correction is
+> kept as written.
 
 **B2. A recency boost can beat a better match on every component.** We observed a
 document that scored higher on both vector and text similarity and still lost on the
@@ -397,17 +407,18 @@ for people.
 
 **Held-out set, weekly (`holdout_v1`, same content hash throughout).**
 
-| date | measuring tool | held-out hits / 13 | MRR |
-|---|---|---|---|
-| 10-28 | baseline | 11 | 0.746 |
-| 11-04 | unchanged | 11 | 0.669 |
-| 11-05 | round 42 (tool changed) | 10 | 0.615 |
-| 11-05 | round 43 (age fields stored, tool changed) | 10 | 0.692 |
-| 11-08 | round 45 (regression baseline) | 10 | 0.590 |
+| date | OpenClaw build | measuring tool | held-out hits / 13 | MRR |
+|---|---|---|---|---|
+| 10-28 | 2026.10.5 | round 40 (first held-out measurement) | 11 | 0.746 |
+| 11-04 | 2026.10.9 | round 41 (tool unchanged, build changed) | 11 | 0.669 |
+| 11-05 | 2026.10.9 | round 42 (tool changed) | 10 | 0.615 |
+| 11-05 | 2026.10.9 | round 43 (age fields stored, tool changed) | 10 | 0.692 |
+| 11-08 | 2026.10.9 | round 45 (regression baseline) | 10 | 0.590 |
 
-The 11-04 change (same hits, two questions from rank 1 to rank 2) was below the
-two-question threshold and was not attributed. From 11-05 the comparison point is the
-new tool.
+The 10-28 row was measured on a different build and is not a comparison point for the
+rows below it. The 11-04 change (same hits, two questions from rank 1 to rank 2) spans
+the build change and was not attributed. From 11-05 the comparison point is the new
+tool on 2026.10.9.
 
 **Regression check (§3.4).** Baseline 2026-11-08: **31/38** (core 21/25, held-out
 10/13, MRR 0.590), `recency` 5/6, `negative` auto 4/5 (1 ambiguous), health gate 0/51.
@@ -441,7 +452,7 @@ The current values were re-read from the live systems on 11-09 and were unchange
 Under the core set's scoring rule the 11-07 run would have scored 10/15, yet only 4 of
 those 10 canonical chunks carried the current value. Remaining holes were structural:
 a date label that sits outside the table's chunk, a "current values" block ranked
-7th, and a value present only in a history line.
+7th, and a value line in a later chunk of its node that ranks outside the top 50.
 
 With old values embedded in the question as a premise (5 questions, 11-09), every
 question had a correcting chunk somewhere in the top 5, but the first-ranked chunk was
@@ -450,11 +461,13 @@ words pull old-value chunks up.
 
 **In-line correction markers.** Lessons that had been refuted carried their correction
 as a separate line at the end. Measured with 20 queries (5 quoting the old
-claim, 15 natural-language; 2026-11-06): in 4 queries an old-claim chunk came back with no correction anywhere in
-the top 5, plus 1 more on an off-topic query. Each of the three lessons that carried only
+claim, 15 natural-language; 2026-11-06): in 4 queries an old-claim chunk came back with
+neither a correction nor an indirect counter-example anywhere in the top 5, plus 1 more
+on an off-topic query and 2 with only an indirect counter-example. Each of the three lessons that carried only
 an appended refutation line showed up uncorrected; the two whose opening claim had been
 rewritten never did. After adding a short correction marker inside the same line as the
-old claim (2026-11-09, same 20 queries): 0 such queries. All 9 queries that still
+old claim (markers added 2026-11-07; re-measured 2026-11-09 with the same 20 queries):
+0 queries in each of those three groups. All 9 queries that still
 returned an old-claim chunk now had the marker inside that chunk. Rank did not drop
 (e.g. top-1 0.762 → 0.780): the marker does not reduce exposure, it makes the
 correction travel with the claim. The same 20 queries against two other agents'
@@ -495,6 +508,7 @@ Earlier claims are kept, marked, and dated.
 | 2026-09-06 → 2026-10-07 | recency is "not disableable in this build" | broader: none of the hybrid/MMR/decay parameters are configurable (§4.5) |
 | 2026-08-22 → 2026-09-15 | the ontology's +48 is the graph | the curated split is shown; the graph's retrieval effect is not (§4.6) |
 | 2026-09-14 → 2026-11-04 | "check the index's stored timestamp, not the file's" (B1), and "curated nodes are aged by the index's stored mtime" (G3, published 2026-11-03) | build-specific: on 2026.10.9 decay reads the file's current mtime (66/66 vs 61/66) |
+| 2026-09-14 → 2026-11-11 | B1 correction: restoring eleven notes' `mtime` moved nothing, so check the index's timestamp | the eleven were daily notes, aged by filename date; on the same build, restoring 14 curated lessons' `mtime` moved 92% → 96% (round 36) |
 | README, 2026-11-03 | "5 of the 25 questions have never been scored" | "5 of the 30" |
 
 ---

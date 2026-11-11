@@ -24,11 +24,13 @@ measurements showed, including the results that contradicted earlier claims.
   - Hybrid weights, MMR and the 30-day decay are hard-coded; on our probe the two
     always-on stages cost about 3 of 17 hits.
   - Only curated notes are aged by the decay; pinning their age took the core set from
-    44% to 92% on 2026.9.7.
+    44% to 92% on 2026.9.7 (five variables moved in that round; the replica
+    attributes most of the gain to pinning).
   - The typed graph links themselves have no shown retrieval effect.
   - Since 2026-11-03: documentation fixes moved the first-ranked stale chunk from 7 to
-    4 of 15 changed facts, and in-line correction markers took uncorrected old claims
-    from 4 to 0 of 20 queries.
+    4 of 15 changed facts (2026-11-07 → 11-09), and in-line correction markers took
+    old claims returned with neither a correction nor a counter-example from 4 to 0 of
+    20 queries (2026-11-06 → 11-09).
 - **Limits.** n = 1 corpus and model; numbers from different builds are not compared.
   Refuted claims stay in the text, marked and dated.
 
